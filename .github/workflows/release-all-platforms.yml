@@ -40,6 +40,11 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Download Mihomo core
+        run: |
+          chmod +x download_mihomo.sh
+          ./download_mihomo.sh
+
       - name: Build for x64
         run: |
           export PATH="$PATH:$HOME/.pub-cache/bin"
@@ -84,6 +89,8 @@ jobs:
               export PATH="/flutter/bin:$PATH" && \
               flutter doctor -v && \
               flutter pub get && \
+              chmod +x download_mihomo.sh && \
+              ./download_mihomo.sh && \
               flutter pub global activate flutter_distributor && \
               export PATH="$PATH:$HOME/.pub-cache/bin" && \
               flutter_distributor release --name release --jobs linux-${{ matrix.format }}-arm64
@@ -128,6 +135,8 @@ jobs:
               export PATH="/flutter/bin:$PATH" && \
               flutter doctor -v && \
               flutter pub get && \
+              chmod +x download_mihomo.sh && \
+              ./download_mihomo.sh && \
               flutter pub global activate flutter_distributor && \
               export PATH="$PATH:$HOME/.pub-cache/bin" && \
               flutter_distributor release --name release --jobs linux-${{ matrix.format }}-armv7
