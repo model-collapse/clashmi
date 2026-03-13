@@ -10,16 +10,48 @@ releases:
           target: apk
           build_args:
             target-platform: android-arm,android-arm64
-      - name: linux-deb
+      - name: linux-deb-amd64
         package:
           platform: linux
           target: deb
           dart-define:
             PACKAGE_TARGET: deb
-      - name: linux-rpm
+      - name: linux-deb-arm64
+        package:
+          platform: linux
+          target: deb
+          build_args:
+            target-platform: linux-arm64
+          dart-define:
+            PACKAGE_TARGET: deb
+      - name: linux-deb-armv7
+        package:
+          platform: linux
+          target: deb
+          build_args:
+            target-platform: linux-arm
+          dart-define:
+            PACKAGE_TARGET: deb
+      - name: linux-rpm-amd64
         package:
           platform: linux
           target: rpm
+          dart-define:
+            PACKAGE_TARGET: rpm
+      - name: linux-rpm-arm64
+        package:
+          platform: linux
+          target: rpm
+          build_args:
+            target-platform: linux-arm64
+          dart-define:
+            PACKAGE_TARGET: rpm
+      - name: linux-rpm-armv7
+        package:
+          platform: linux
+          target: rpm
+          build_args:
+            target-platform: linux-arm
           dart-define:
             PACKAGE_TARGET: rpm
       - name: macos-dmg

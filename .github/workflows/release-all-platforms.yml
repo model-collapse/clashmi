@@ -1,0 +1,169 @@
+name: Build All Platforms
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-linux-x64:
+    name: Build Linux x64
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        format: [deb, rpm]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.0'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev libayatana-appindicator3-dev \
+            libkeybinder-3.0-dev libsecret-1-dev rpm
+
+      - name: Install Flutter Distributor
+        run: flutter pub global activate flutter_distributor
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build for x64
+        run: |
+          export PATH="$PATH:$HOME/.pub-cache/bin"
+          flutter_distributor release --name release --jobs "linux-${{ matrix.format }}-amd64"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: clashmi-linux-x64-${{ matrix.format }}
+          path: dist/**/*
+
+  build-linux-arm64:
+    name: Build Linux ARM64
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        format: [deb, rpm]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.0'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev libayatana-appindicator3-dev \
+            libkeybinder-3.0-dev libsecret-1-dev rpm \
+            gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
+      - name: Install Flutter Distributor
+        run: flutter pub global activate flutter_distributor
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build for ARM64
+        run: |
+          export PATH="$PATH:$HOME/.pub-cache/bin"
+          flutter_distributor release --name release --jobs "linux-${{ matrix.format }}-arm64"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: clashmi-linux-arm64-${{ matrix.format }}
+          path: dist/**/*
+
+  build-linux-armv7:
+    name: Build Linux ARMv7
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        format: [deb, rpm]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.0'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev libayatana-appindicator3-dev \
+            libkeybinder-3.0-dev libsecret-1-dev rpm \
+            gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+
+      - name: Install Flutter Distributor
+        run: flutter pub global activate flutter_distributor
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build for ARMv7
+        run: |
+          export PATH="$PATH:$HOME/.pub-cache/bin"
+          flutter_distributor release --name release --jobs "linux-${{ matrix.format }}-armv7"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: clashmi-linux-armv7-${{ matrix.format }}
+          path: dist/**/*
+
+  create-release:
+    name: Create GitHub Release
+    needs: [build-linux-x64, build-linux-arm64, build-linux-armv7]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Display structure
+        run: ls -R artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/**/*
+          draft: false
+          prerelease: false
+          body: |
+            ## Clash Mi Release
+
+            ### Linux Packages
+            - **x64 (amd64)**: Standard desktop/laptop
+            - **ARM64 (aarch64)**: Raspberry Pi 3/4/5 (64-bit), ARM servers
+            - **ARMv7 (armhf)**: Raspberry Pi 2/3 (32-bit)
+
+            Each architecture available in DEB and RPM formats.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
