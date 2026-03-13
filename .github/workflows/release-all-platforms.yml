@@ -86,6 +86,7 @@ jobs:
       - name: Build for ARM64
         run: |
           export PATH="$PATH:$HOME/.pub-cache/bin"
+          export CMAKE_TOOLCHAIN_FILE="$PWD/linux/cmake/arm64-toolchain.cmake"
           flutter_distributor release --name release --jobs "linux-${{ matrix.format }}-arm64"
 
       - name: Upload artifacts
@@ -129,6 +130,7 @@ jobs:
       - name: Build for ARMv7
         run: |
           export PATH="$PATH:$HOME/.pub-cache/bin"
+          export CMAKE_TOOLCHAIN_FILE="$PWD/linux/cmake/armv7-toolchain.cmake"
           flutter_distributor release --name release --jobs "linux-${{ matrix.format }}-armv7"
 
       - name: Upload artifacts
