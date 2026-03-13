@@ -6,6 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_linux
   flutter_secure_storage_linux
   hotkey_manager_linux
+  libclash_vpn_service
   open_dir_linux
   open_file_linux
   screen_capturer_linux

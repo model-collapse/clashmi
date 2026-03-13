@@ -59,7 +59,7 @@ dependencies:
   encrypt: 5.0.3
   open_dir: 0.0.2+1
   path: 1.9.1 #flutter_test
-  characters: 1.4.0 #flutter_test
+  characters: 1.4.1 #flutter_test
   win32_registry: 1.1.5 #flutter_test
   share_plus: 12.0.1
   open_file: 3.5.10

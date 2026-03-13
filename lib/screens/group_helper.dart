@@ -839,7 +839,7 @@ class GroupHelper {
                 }
                 DialogUtils.showAlertDialog(
                   context,
-                  err,
+                  err.message,
                   showCopy: true,
                   showFAQ: true,
                   withVersion: true,

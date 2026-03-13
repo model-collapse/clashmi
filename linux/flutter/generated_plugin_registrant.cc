@@ -9,6 +9,7 @@
 #include <file_selector_linux/file_selector_plugin.h>
 #include <flutter_secure_storage_linux/flutter_secure_storage_linux_plugin.h>
 #include <hotkey_manager_linux/hotkey_manager_linux_plugin.h>
+#include <libclash_vpn_service/libclash_vpn_service_plugin.h>
 #include <open_dir_linux/open_dir_linux_plugin.h>
 #include <open_file_linux/open_file_linux_plugin.h>
 #include <screen_capturer_linux/screen_capturer_linux_plugin.h>
@@ -27,6 +28,9 @@ void fl_register_plugins(FlPluginRegistry* registry) {
   g_autoptr(FlPluginRegistrar) hotkey_manager_linux_registrar =
       fl_plugin_registry_get_registrar_for_plugin(registry, "HotkeyManagerLinuxPlugin");
   hotkey_manager_linux_plugin_register_with_registrar(hotkey_manager_linux_registrar);
+  g_autoptr(FlPluginRegistrar) libclash_vpn_service_registrar =
+      fl_plugin_registry_get_registrar_for_plugin(registry, "LibclashVpnServicePlugin");
+  libclash_vpn_service_plugin_register_with_registrar(libclash_vpn_service_registrar);
   g_autoptr(FlPluginRegistrar) open_dir_linux_registrar =
       fl_plugin_registry_get_registrar_for_plugin(registry, "OpenDirLinuxPlugin");
   open_dir_linux_plugin_register_with_registrar(open_dir_linux_registrar);

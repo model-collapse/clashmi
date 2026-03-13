@@ -1,4 +1,5 @@
 // ignore_for_file: empty_catches
+import 'package:libclash_vpn_service/proxy_option.dart';
 
 import 'dart:convert';
 import 'dart:io';

@@ -10,7 +10,7 @@
 #include <flutter_inappwebview_windows/flutter_inappwebview_windows_plugin_c_api.h>
 #include <flutter_secure_storage_windows/flutter_secure_storage_windows_plugin.h>
 #include <hotkey_manager_windows/hotkey_manager_windows_plugin_c_api.h>
-#include <libclash_vpn_service/vpn_service_plugin.h>
+#include <libclash_vpn_service/libclash_vpn_service_plugin.h>
 #include <open_dir_windows/open_dir_windows_plugin_c_api.h>
 #include <protocol_handler/protocol_handler_plugin.h>
 #include <screen_capturer_windows/screen_capturer_windows_plugin_c_api.h>
@@ -30,8 +30,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("FlutterSecureStorageWindowsPlugin"));
   HotkeyManagerWindowsPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("HotkeyManagerWindowsPluginCApi"));
-  VpnServicePluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("VpnServicePlugin"));
+  LibclashVpnServicePluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("LibclashVpnServicePlugin"));
   OpenDirWindowsPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("OpenDirWindowsPluginCApi"));
   ProtocolHandlerPluginRegisterWithRegistrar(
